@@ -1,0 +1,51 @@
+ul
+{
+    background-color: #333333;
+    list-style-type: none;
+    overflow: hidden;
+}
+body
+{
+    background-image: url(../image/backGround.jpg);
+    background-color: #ffffff;
+}
+ul
+{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #272626;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+.nav
+{
+    /*display与float两种方式使列表转为横向*/
+    /* display: inline; */
+    float: left;
+    
+}
+.navInput
+{
+    display:block ;
+    color:white;
+    background-color:orange;
+    text-decoration: none;
+    text-align: center;
+    padding: 14px 16px;
+}
+.navTree
+{
+    display:block ;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    padding: 14px 16px;
+}
+.input
+{
+    
+}
