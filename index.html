@@ -14,20 +14,31 @@
                 <li class="nav"> <a class="navInput"href="index.html"> 学术树生成器 </a> </li>
             </ul>
         </div>
+
         <div class="inputArea">
-            <!--<p>请严格按照格式输入数据</p>-->
-            <textarea id="inputData" cols="50" rows="30" placeholder="样例输入:
-            &#13;&#10;导师：张三&#13;&#10;2016级博士生：天一、王二、吴五
-            &#13;&#10;2015级硕士生：李四、王五、许六
-            &#13;&#10;2016级硕士生：刘一、李二、李三
-            &#13;&#10;2017级本科生：刘六、琪七、司四
-            &#13;&#10;&#13;&#10;刘六：JAVA、数学建模
-            &#13;&#10;&#13;&#10;李二：字节跳动、京东云
-            &#13;&#10;&#13;&#10;……"></textarea>
-            <button type="button" id="submitButton" onclick="spiltInput()">生成</button>
-            <button type="button" id="resetButton" onclick="empty()">重置</button>
-        </div>
+            <form>
+                <fieldset>
+                     <legend>学术树生成器</legend>
+                    <!--<p>请严格按照格式输入数据</p>-->
+                       <textarea id="inputData" cols="50" rows="30" placeholder="样例输入:
+                        &#13;&#10;导师：张三
+                        &#13;&#10;2016级博士生：天一、王二、吴五
+                        &#13;&#10;2015级硕士生：李四、王五、许六
+                        &#13;&#10;2016级硕士生：刘一、李二、李三
+                        &#13;&#10;2017级本科生：刘六、琪七、司四
+                        &#13;&#10;&#13;&#10;刘六：JAVA、数学建模
+                        &#13;&#10;&#13;&#10;李二：字节跳动、京东云
+                        &#13;&#10;&#13;&#10;……"></textarea>
+                        <br />
+                       <button type="button" id="submitButton" onclick="spiltInput()">生成</button>
+                       <button type="button" id="resetButton" onclick="empty()">重置</button>
+                     </fieldset>
+                </form>
+
+
+       <</div>
         <div id = "studyTree">
+
         </div>
     </body>
     <script type="text/javascript" src="js/myJs.js"></script>
