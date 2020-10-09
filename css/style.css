@@ -47,7 +47,7 @@ body
 #studyTree {
     position:absolute;
     right:0px;
-    top:48px;
+    top:10%;
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
@@ -58,20 +58,23 @@ body
 }
 .inputArea{
     position: absolute;
-    top: 20%;
-    left: 5%;
+    top: 10%;
+    left: 2%;
 }
 button{
-    background-color:#2d4bd1;
+    background-color:#FF9966;
     border: none;
     color: white;
-    padding: 15px 32px;
+    padding: 5px 10px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
+    font-size: 20px;
+    margin: 14px 50px;
     cursor: pointer;
-    border-radius: 25px;
+    border-radius: 10px;
 }
-
+legend{
+    color:#FF9966 ;
+    font-weight:bold;
+}
