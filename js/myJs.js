@@ -1,6 +1,5 @@
 document.getElementById("inputData").value = "";
-//document.getElementById("submitButton").addEventListener('click',spiltInput);
-document.getElementById("resetButton").addEventListener('click',empty);
+var submitNum=0;
 function spiltInput()
 {
     var str=document.getElementById("inputData").value;
@@ -11,12 +10,12 @@ function spiltInput()
     str=str.split("\n\n");
     for(var i=0;i<str.length;i++)
     {
-        buildTree(str[i],i);
+        buildTree(str[i],i,submitNum);
     }
+    submitNum++
 }
-function buildTree(str,num)
+function buildTree(str,num,submitNum)
 {
-    var k=0;
     var supervisorPatt=/导师：.*/g;
     var doctorPatt=/\d{4}级博士生：.*/g;
     var postgraduatePatt=/\d{4}级硕士生：.*/g;
@@ -29,116 +28,9 @@ function buildTree(str,num)
        throw new Error(result.error_code);
     }
     var treeDiv=document.createElement('div');
-    treeDiv.setAttribute("id","tree"+num);
+    treeDiv.setAttribute("id","tree"+submitNum+num);
     document.getElementById("studyTree").appendChild(treeDiv);
-    var treeRoot=document.createElement('ul');
-    treeRoot.setAttribute("id","root"+num);
-    document.getElementById("tree"+num).appendChild(treeRoot);
-    supervisor=supervisor.join("").split("：");
-    var ele = document.createElement('li');
-    ele.setAttribute("id","supervisor"+num);
-    ele.innerHTML=supervisor[1];
-    document.getElementById("root"+num).appendChild(ele);
-    var doctor=str.match(doctorPatt);
-    var postgraduate=str.match(postgraduatePatt);
-    var undergraduate=str.match(undergraduatePatt);
-    if(doctor||postgraduate||undergraduate)
-    {
-        var degree = document.createElement('ul');
-        degree.setAttribute("id","degree"+num);
-        document.getElementById("supervisor"+num).appendChild(degree);
-    }
-    if(doctor)
-    {
-        var doctorDegree=document.createElement('li');
-        doctorDegree.setAttribute("id","doctorDegree"+num);
-        doctorDegree.innerHTML="博士生";
-        document.getElementById("degree"+num).appendChild(doctorDegree);
-        var doctorGradeUl=document.createElement('ul');
-        doctorGradeUl.setAttribute("id","doctorGradeUl"+num);
-        document.getElementById("doctorDegree"+num).appendChild(doctorGradeUl);
-        for(var i=0;i<doctor.length;i++)
-        {
-            var doctorStr=doctor[i];
-            doctorStr=doctorStr.split("：");
-            var doctorGradeLi=document.createElement('li');
-            doctorGradeLi.innerHTML=doctorStr[0].match(numberPatt);
-            doctorGradeLi.setAttribute("id","doctorGradeLi"+num+i);
-            document.getElementById("doctorGradeUl"+num).appendChild(doctorGradeLi);
-            var doctorNameUl = document.createElement('ul');
-            doctorNameUl.setAttribute("id","doctorNameUl"+num+i);
-            document.getElementById("doctorGradeLi"+num+i).appendChild(doctorNameUl);
-            var nameValue=doctorStr[1].split("、");
-            for(var j=0;j<nameValue.length;j++)
-            {
-                var doctorNameLi=document.createElement('li');
-                doctorNameLi.setAttribute("id","doctorNameLi"+num+i+j);
-                doctorNameLi.innerHTML=nameValue[j];
-                document.getElementById("doctorNameUl"+num+i).appendChild(doctorNameLi);
-            }
-        }
-    }
-    if(postgraduate)
-    {
-        var postgraduateDegree=document.createElement('li');
-        postgraduateDegree.setAttribute("id","postgraduateDegree"+num);
-        postgraduateDegree.innerHTML="硕士生";
-        document.getElementById("degree"+num).appendChild(postgraduateDegree);
-        var postgraduateGradeUl=document.createElement('ul');
-        postgraduateGradeUl.setAttribute("id","postgraduateGradeUl"+num);
-        document.getElementById("postgraduateDegree"+num).appendChild(postgraduateGradeUl);
-        for(var i=0;i<postgraduate.length;i++)
-        {
-            var postgraduateStr=postgraduate[i];
-            postgraduateStr=postgraduateStr.split("：");
-            var postgraduateGradeLi=document.createElement('li');
-            postgraduateGradeLi.innerHTML=postgraduateStr[0].match(numberPatt);
-            postgraduateGradeLi.setAttribute("id","postgraduateGradeLi"+num+i);
-            document.getElementById("postgraduateGradeUl"+num).appendChild(postgraduateGradeLi);
-            var postgraduateNameUl = document.createElement('ul');
-            postgraduateNameUl.setAttribute("id","postgraduateNameUl"+num+i);
-            document.getElementById("postgraduateGradeLi"+num+i).appendChild(postgraduateNameUl);
-            var nameValue=postgraduateStr[1].split("、");
-            for(var j=0;j<nameValue.length;j++)
-            {
-                var postgraduateNameLi=document.createElement('li');
-                postgraduateNameLi.setAttribute("id","postgraduateNameLi"+num+i+j);
-                postgraduateNameLi.innerHTML=nameValue[j];
-                document.getElementById("postgraduateNameUl"+num+i).appendChild(postgraduateNameLi);
-            }
-        }
-    }
-    if(undergraduate)
-    {
-        var undergraduateDegree=document.createElement('li');
-        undergraduateDegree.setAttribute("id","undergraduateDegree"+num);
-        undergraduateDegree.innerHTML="本科生";
-        document.getElementById("degree"+num).appendChild(undergraduateDegree);
-        var undergraduateGradeUl=document.createElement('ul');
-        undergraduateGradeUl.setAttribute("id","undergraduateGradeUl"+num);
-        document.getElementById("undergraduateDegree"+num).appendChild(undergraduateGradeUl);
-        for(var i=0;i<undergraduate.length;i++)
-        {
-            var undergraduateStr=undergraduate[i];
-            undergraduateStr=undergraduateStr.split("：");
-            var undergraduateGradeLi=document.createElement('li');
-            undergraduateGradeLi.innerHTML=undergraduateStr[0].match(numberPatt);
-            undergraduateGradeLi.setAttribute("id","undergraduateGradeLi"+num+i);
-            document.getElementById("undergraduateGradeUl"+num).appendChild(undergraduateGradeLi);
-            var undergraduateNameUl = document.createElement('ul');
-            undergraduateNameUl.setAttribute("id","undergraduateNameUl"+num+i);
-            document.getElementById("undergraduateGradeLi"+num+i).appendChild(undergraduateNameUl);
-            var nameValue=undergraduateStr[1].split("、");
-            for(var j=0;j<nameValue.length;j++)
-            {
-                var undergraduateNameLi=document.createElement('li');
-                undergraduateNameLi.setAttribute("id","undergraduateNameLi"+num+i+j);
-                undergraduateNameLi.innerHTML=nameValue[j];
-                document.getElementById("undergraduateNameUl"+num+i).appendChild(undergraduateNameLi);
-            }
-        }
-    }
-    $(function(){$("#tree"+num+"").jstree({
+    $(function(){$("#tree"+submitNum+num+"").jstree({
         plugins : ["types","contextmenu"], 
         'core' : {
                     //允许callback，为了后面进行创建、重命名、删除、移动或复制等操作
@@ -165,7 +57,7 @@ function buildTree(str,num)
                                            4）after：当前节点同级的下部新增节点
                                     参数4:回调函数
                                     参数5:Boolean类型,内部参数，指示父节点是否成功加载
-                                  */
+                                */  
                                 var newNode = inst.create_node(clickedNode,
                                     {    //'id': 'ajson20',
                                         //'parent' : 'ajson2',
@@ -195,6 +87,113 @@ function buildTree(str,num)
                     }
                 }
       });});
+    var treeRoot=document.createElement('ul');
+    treeRoot.setAttribute("id","root"+submitNum+num);
+    document.getElementById("tree"+submitNum+num).appendChild(treeRoot);
+    supervisor=supervisor.join("").split("：");
+    var ele = document.createElement('li');
+    ele.setAttribute("id","supervisor"+submitNum+num);
+    ele.innerHTML=supervisor[1];
+    document.getElementById("root"+submitNum+num).appendChild(ele);
+    var doctor=str.match(doctorPatt);
+    var postgraduate=str.match(postgraduatePatt);
+    var undergraduate=str.match(undergraduatePatt);
+    if(doctor||postgraduate||undergraduate)
+    {
+        var degree = document.createElement('ul');
+        degree.setAttribute("id","degree"+submitNum+num);
+        document.getElementById("supervisor"+submitNum+num).appendChild(degree);
+    }
+    if(doctor)
+    {
+        var doctorDegree=document.createElement('li');
+        doctorDegree.setAttribute("id","doctorDegree"+submitNum+num);
+        doctorDegree.innerHTML="博士生";
+        document.getElementById("degree"+submitNum+num).appendChild(doctorDegree);
+        var doctorGradeUl=document.createElement('ul');
+        doctorGradeUl.setAttribute("id","doctorGradeUl"+submitNum+num);
+        document.getElementById("doctorDegree"+submitNum+num).appendChild(doctorGradeUl);
+        for(var i=0;i<doctor.length;i++)
+        {
+            var doctorStr=doctor[i];
+            doctorStr=doctorStr.split("：");
+            var doctorGradeLi=document.createElement('li');
+            doctorGradeLi.innerHTML=doctorStr[0].match(numberPatt);
+            doctorGradeLi.setAttribute("id","doctorGradeLi"+submitNum+num+i);
+            document.getElementById("doctorGradeUl"+submitNum+num).appendChild(doctorGradeLi);
+            var doctorNameUl = document.createElement('ul');
+            doctorNameUl.setAttribute("id","doctorNameUl"+submitNum+num+i);
+            document.getElementById("doctorGradeLi"+submitNum+num+i).appendChild(doctorNameUl);
+            var nameValue=doctorStr[1].split("、");
+            for(var j=0;j<nameValue.length;j++)
+            {
+                var doctorNameLi=document.createElement('li');
+                doctorNameLi.setAttribute("id","doctorNameLi"+submitNum+num+i+j);
+                doctorNameLi.innerHTML=nameValue[j];
+                document.getElementById("doctorNameUl"+submitNum+num+i).appendChild(doctorNameLi);
+            }
+        }
+    }
+    if(postgraduate)
+    {
+        var postgraduateDegree=document.createElement('li');
+        postgraduateDegree.setAttribute("id","postgraduateDegree"+submitNum+num);
+        postgraduateDegree.innerHTML="硕士生";
+        document.getElementById("degree"+submitNum+num).appendChild(postgraduateDegree);
+        var postgraduateGradeUl=document.createElement('ul');
+        postgraduateGradeUl.setAttribute("id","postgraduateGradeUl"+submitNum+num);
+        document.getElementById("postgraduateDegree"+submitNum+num).appendChild(postgraduateGradeUl);
+        for(var i=0;i<postgraduate.length;i++)
+        {
+            var postgraduateStr=postgraduate[i];
+            postgraduateStr=postgraduateStr.split("：");
+            var postgraduateGradeLi=document.createElement('li');
+            postgraduateGradeLi.innerHTML=postgraduateStr[0].match(numberPatt);
+            postgraduateGradeLi.setAttribute("id","postgraduateGradeLi"+submitNum+num+i);
+            document.getElementById("postgraduateGradeUl"+submitNum+num).appendChild(postgraduateGradeLi);
+            var postgraduateNameUl = document.createElement('ul');
+            postgraduateNameUl.setAttribute("id","postgraduateNameUl"+submitNum+num+i);
+            document.getElementById("postgraduateGradeLi"+submitNum+num+i).appendChild(postgraduateNameUl);
+            var nameValue=postgraduateStr[1].split("、");
+            for(var j=0;j<nameValue.length;j++)
+            {
+                var postgraduateNameLi=document.createElement('li');
+                postgraduateNameLi.setAttribute("id","postgraduateNameLi"+submitNum+num+i+j);
+                postgraduateNameLi.innerHTML=nameValue[j];
+                document.getElementById("postgraduateNameUl"+submitNum+num+i).appendChild(postgraduateNameLi);
+            }
+        }
+    }
+    if(undergraduate)
+    {
+        var undergraduateDegree=document.createElement('li');
+        undergraduateDegree.setAttribute("id","undergraduateDegree"+submitNum+num);
+        undergraduateDegree.innerHTML="本科生";
+        document.getElementById("degree"+submitNum+num).appendChild(undergraduateDegree);
+        var undergraduateGradeUl=document.createElement('ul');
+        undergraduateGradeUl.setAttribute("id","undergraduateGradeUl"+submitNum+num);
+        document.getElementById("undergraduateDegree"+submitNum+num).appendChild(undergraduateGradeUl);
+        for(var i=0;i<undergraduate.length;i++)
+        {
+            var undergraduateStr=undergraduate[i];
+            undergraduateStr=undergraduateStr.split("：");
+            var undergraduateGradeLi=document.createElement('li');
+            undergraduateGradeLi.innerHTML=undergraduateStr[0].match(numberPatt);
+            undergraduateGradeLi.setAttribute("id","undergraduateGradeLi"+submitNum+num+i);
+            document.getElementById("undergraduateGradeUl"+submitNum+num).appendChild(undergraduateGradeLi);
+            var undergraduateNameUl = document.createElement('ul');
+            undergraduateNameUl.setAttribute("id","undergraduateNameUl"+submitNum+num+i);
+            document.getElementById("undergraduateGradeLi"+submitNum+num+i).appendChild(undergraduateNameUl);
+            var nameValue=undergraduateStr[1].split("、");
+            for(var j=0;j<nameValue.length;j++)
+            {
+                var undergraduateNameLi=document.createElement('li');
+                undergraduateNameLi.setAttribute("id","undergraduateNameLi"+submitNum+num+i+j);
+                undergraduateNameLi.innerHTML=nameValue[j];
+                document.getElementById("undergraduateNameUl"+submitNum+num+i).appendChild(undergraduateNameLi);
+            }
+        }
+    }
 }
 function empty()
 {
