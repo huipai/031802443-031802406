@@ -1,4 +1,5 @@
 document.getElementById("inputData").value = "";
+document.getElementById
 var submitNum=0;
 function spiltInput()
 {
@@ -7,7 +8,7 @@ function spiltInput()
     {
         alert("输入数据为空");
     }
-    str=str.split("\n\n");
+    str=str.split("\n\n\n");
     for(var i=0;i<str.length;i++)
     {
         buildTree(str[i],i,submitNum);
@@ -24,18 +25,26 @@ function buildTree(str,num,submitNum)
     var supervisor=str.match(supervisorPatt);
     if(supervisor==null) 
     {
-       alert("输入格式不正确");
+       alert("请按照格式输入导师名"); 
        throw new Error(result.error_code);
+    }
+    else if(supervisor.length>1)
+    {
+        alert("每位导师之间空行数为2");
+        throw new Error(result.error_code);
     }
     var treeDiv=document.createElement('div');
     treeDiv.setAttribute("id","tree"+submitNum+num);
     document.getElementById("studyTree").appendChild(treeDiv);
     $(function(){$("#tree"+submitNum+num+"").jstree({
-        plugins : ["types","contextmenu"], 
+        plugins : ["types","contextmenu","state"], 
+        'state': {
+            "opened":true
+       },
         'core' : {
                     //允许callback，为了后面进行创建、重命名、删除、移动或复制等操作
                     "check_callback" : true,},
-      "types": {
+        "types": {
           "default" : {
             "icon" :false,  // 关闭默认图标
           },
@@ -61,7 +70,7 @@ function buildTree(str,num,submitNum)
                                 var newNode = inst.create_node(clickedNode,
                                     {    //'id': 'ajson20',
                                         //'parent' : 'ajson2',
-                                        'icon' : 'jstree-file',
+                                        'icon' : false,
                                         'text':'新节点'},'last',function(node){
                                         //回调返回创建后点节点，给新节点改名
                                         inst.edit(node,node.val);
@@ -87,6 +96,18 @@ function buildTree(str,num,submitNum)
                     }
                 }
       });});
+    $("#tree"+submitNum+num+"").on("changed.jstree", function (e, data) { 
+        if('click'==data.event.type)
+        {
+            var outputControl=data.node.id.indexOf("技能");
+            if(outputControl>=0)    alert(data.node.id);  //选择的node id 
+            form_data.ay = data.node.text; 
+            form_data.ay_id = data.node.id; 
+        }
+    }); 
+    $("#tree"+submitNum+num+"").on('ready.jstree',function(){
+        $("#tree"+submitNum+num+"").jstree('open_all')
+     });
     var treeRoot=document.createElement('ul');
     treeRoot.setAttribute("id","root"+submitNum+num);
     document.getElementById("tree"+submitNum+num).appendChild(treeRoot);
@@ -128,7 +149,7 @@ function buildTree(str,num,submitNum)
             for(var j=0;j<nameValue.length;j++)
             {
                 var doctorNameLi=document.createElement('li');
-                doctorNameLi.setAttribute("id","doctorNameLi"+submitNum+num+i+j);
+                doctorNameLi.setAttribute("id","暂无"+nameValue[j]+"的技能及其经历");
                 doctorNameLi.innerHTML=nameValue[j];
                 document.getElementById("doctorNameUl"+submitNum+num+i).appendChild(doctorNameLi);
             }
@@ -158,7 +179,7 @@ function buildTree(str,num,submitNum)
             for(var j=0;j<nameValue.length;j++)
             {
                 var postgraduateNameLi=document.createElement('li');
-                postgraduateNameLi.setAttribute("id","postgraduateNameLi"+submitNum+num+i+j);
+                postgraduateNameLi.setAttribute("id","暂无"+nameValue[j]+"的技能及其经历");
                 postgraduateNameLi.innerHTML=nameValue[j];
                 document.getElementById("postgraduateNameUl"+submitNum+num+i).appendChild(postgraduateNameLi);
             }
@@ -188,11 +209,18 @@ function buildTree(str,num,submitNum)
             for(var j=0;j<nameValue.length;j++)
             {
                 var undergraduateNameLi=document.createElement('li');
-                undergraduateNameLi.setAttribute("id","undergraduateNameLi"+submitNum+num+i+j);
+                undergraduateNameLi.setAttribute("id","暂无"+nameValue[j]+"的技能及其经历");
                 undergraduateNameLi.innerHTML=nameValue[j];
                 document.getElementById("undergraduateNameUl"+submitNum+num+i).appendChild(undergraduateNameLi);
             }
         }
+    }
+    str=str.split("\n\n");
+    for(var i=1;i<str.length;i++)
+    {
+        var abilityStr=str[i];
+        abilityStr=abilityStr.split("：");
+        document.getElementById("暂无"+abilityStr[0]+"的技能及其经历").setAttribute("id",abilityStr[0]+"的技能及其经历："+abilityStr[1]);
     }
 }
 function empty()
