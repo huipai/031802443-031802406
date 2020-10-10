@@ -52,7 +52,7 @@ function buildTree(str,num,submitNum)
       'contextmenu':{
                     'items' : {
                         'add':{
-                            'label':'新增分类',
+                            'label':'新增节点',
                             'action':function(obj){
                                 //reference获取当前选中节点的引用
                                 var inst = jQuery.jstree.reference(obj.reference);
@@ -78,7 +78,7 @@ function buildTree(str,num,submitNum)
                             }
                         },
                         'rename':{
-                            'label':'修改分类',
+                            'label':'修改节点',
                             'action':function(obj){
                                 var inst = jQuery.jstree.reference(obj.reference);
                                 var clickedNode = inst.get_node(obj.reference);    
@@ -86,7 +86,7 @@ function buildTree(str,num,submitNum)
                             }
                         },
                         'delete':{
-                            "label": "删除分类",
+                            "label": "删除节点",
                             'action':function(obj){
                                 var inst = jQuery.jstree.reference(obj.reference);
                                 var clickedNode = inst.get_node(obj.reference);
