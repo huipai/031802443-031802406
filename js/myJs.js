@@ -4,9 +4,10 @@ var submitNum=0;
 function spiltInput()
 {
     var str=document.getElementById("inputData").value;
-    if(str==null)
+    if(str=="")
     {
         alert("输入数据为空");
+        return;
     }
     str=str.split("\n\n\n");
     for(var i=0;i<str.length;i++)
@@ -18,10 +19,10 @@ function spiltInput()
 function buildTree(str,num,submitNum)
 {
     var supervisorPatt=/导师：.*/g;
-    var doctorPatt=/\d{4}级博士生：.*/g;
-    var postgraduatePatt=/\d{4}级硕士生：.*/g;
-    var undergraduatePatt=/\d{4}级本科生：.*/g;
-    var numberPatt=/\d{4}/g;
+    var doctorPatt=/\d{1,}级博士生：.*/g;
+    var postgraduatePatt=/\d{1,}级硕士生：.*/g;
+    var undergraduatePatt=/\d{1,}级本科生：.*/g;
+    var numberPatt=/\d{1,}/g;
     var supervisor=str.match(supervisorPatt);
     if(supervisor==null) 
     {
@@ -37,7 +38,7 @@ function buildTree(str,num,submitNum)
     treeDiv.setAttribute("id","tree"+submitNum+num);
     document.getElementById("studyTree").appendChild(treeDiv);
     $(function(){$("#tree"+submitNum+num+"").jstree({
-        plugins : ["types","contextmenu","state"], 
+        plugins : ["types","contextmenu","state","dnd"], 
         'state': {
             "opened":true
        },
@@ -132,6 +133,10 @@ function buildTree(str,num,submitNum)
         var degree = document.createElement('ul');
         degree.setAttribute("id","degree"+submitNum+num);
         document.getElementById("supervisor"+submitNum+num).appendChild(degree);
+    }
+    else
+    {
+        alert("注意：输入的数据中导师"+supervisor[1]+"没有检测到学生数据，如果数据无误，请忽略该提示")
     }
     if(doctor)
     {
@@ -228,7 +233,15 @@ function buildTree(str,num,submitNum)
     {
         var abilityStr=str[i];
         abilityStr=abilityStr.split("：");
-        document.getElementById("暂无"+abilityStr[0]+submitNum+num).setAttribute("id",abilityStr[0]+"的技能及其经历："+abilityStr[1]);
+        if(!document.getElementById("暂无"+abilityStr[0]+submitNum+num))
+        {
+            alert("没有找到姓名为"+abilityStr[0]+"的学生,该条技能经历添加失败");
+        }
+        else
+        {
+            document.getElementById("暂无"+abilityStr[0]+submitNum+num).setAttribute("id",abilityStr[0]+"的技能及其经历："+abilityStr[1]);
+        }
+            
     }
 }
 function empty()
